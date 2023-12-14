@@ -1,6 +1,9 @@
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * @version (another day, another slay)
@@ -10,6 +13,8 @@ public class Atten extends JFrame {
 
     private static JLabel label;
     private static JButton back_button;
+    private static JLabel date_label;
+    public static JTextField date_text;
     private static JLabel studentname_label;
     public static JTextField studentname_text;
     private static JLabel status_label;
@@ -23,33 +28,41 @@ public class Atten extends JFrame {
     private static JFrame aframe;
 
 
-    public Atten() {
+    public static void main(String[] args){
         JPanel apanel = new JPanel();
         aframe = new JFrame();
-        aframe.setSize(340, 340);
+        aframe.setSize(440, 340);
         aframe.setVisible(true);
         aframe.add(apanel);
 
         apanel.setLayout(null);
 
-        alabel = new JLabel("Notes Page: ");
+        alabel = new JLabel("Attendance Page: ");
         alabel.setBounds(10, 20, 350, 25);
         apanel.add(alabel);
 
+        date_label = new JLabel("Date:");
+        date_label.setBounds(10, 60, 200, 25);
+        apanel.add(date_label);
+
+        date_text = new JTextField(10);
+        date_text.setBounds(260, 60, 200, 25);
+        apanel.add(date_text);
+
         studentname_label = new JLabel("Student name:");
-        studentname_label.setBounds(10, 60, 400, 25);
+        studentname_label.setBounds(10, 90, 400, 25);
         apanel.add(studentname_label);
 
         studentname_text = new JTextField(10);
-        studentname_text.setBounds(120, 60, 200, 25);
+        studentname_text.setBounds(260, 90, 200, 25);
         apanel.add(studentname_text);
 
         status_label = new JLabel("Status (P = Present, A = Absent, N/A):");
-        status_label.setBounds(10, 110, 400, 25);
+        status_label.setBounds(10, 120, 1000, 25);
         apanel.add(status_label);
 
         status_text = new JTextField(10);
-        status_text.setBounds(120, 110, 200, 25);
+        status_text.setBounds(260, 120, 200, 25);
         apanel.add(status_text);
 
         add_button = new JButton("Add");
@@ -57,8 +70,8 @@ public class Atten extends JFrame {
         add_button.setVisible(true);
         apanel.add(add_button);
 
-        view_button = new JButton("View notes");
-        view_button.setBounds(10, 245, 100, 25);
+        view_button = new JButton("View Attendance");
+        view_button.setBounds(10, 245, 150, 25);
         view_button.setVisible(true);
         apanel.add(view_button);
 
@@ -66,6 +79,7 @@ public class Atten extends JFrame {
         back_button.setBounds(10, 275, 75, 25);
         back_button.setVisible(true);
         apanel.add(back_button);
+
 
         JPanel vapanel = new JPanel();
         vapanel.setLayout(null);
@@ -76,7 +90,7 @@ public class Atten extends JFrame {
         vaback_button.setVisible(true);
         vapanel.add(vaback_button);
 
-        String[] columnNames = {"Student name", "Comment Title", "Comment"};
+        String[] columnNames = {"Date", "Student name", "Status"};
         String[][] tableData = new String[10][3]; // Example: 10 rows initially
         JTable table = new JTable(tableData, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -107,8 +121,8 @@ public class Atten extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String studentName = studentname_text.getText();
-                String commentTitle = ctittle_text.getText();
-                String comment = Comment_text.getText();
+                String date = date_text.getText();
+                String status = status_text.getText();
 
                 // Find the first empty row in the table
                 int emptyRow = -1;
@@ -119,9 +133,9 @@ public class Atten extends JFrame {
                     }
                 }
                 if (emptyRow != -1) {
-                    tableData[emptyRow][0] = studentName;
-                    tableData[emptyRow][1] = commentTitle;
-                    tableData[emptyRow][2] = comment;
+                    tableData[emptyRow][0] = date;
+                    tableData[emptyRow][1] = studentName;
+                    tableData[emptyRow][2] = status;
 
                     table.repaint();
                 } else {
@@ -129,8 +143,8 @@ public class Atten extends JFrame {
                 }
 
                 studentname_text.setText(" ");
-                ctittle_text.setText(" ");
-                Comment_text.setText(" ");
+                date_text.setText(" ");
+                status_text.setText(" ");
             }
         });
 
