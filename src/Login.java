@@ -27,6 +27,8 @@ public  class Login extends JFrame  {
         frame.setSize(300,200);
         frame.setVisible(true);
         frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         panel.setLayout(null);
         Color green = new Color(119,141,34);

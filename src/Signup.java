@@ -27,7 +27,7 @@ public class Signup implements ActionListener {
     public static void main(String[] args){
         JPanel supanel = new JPanel();
         suframe = new JFrame();
-        suframe.setSize(500,230);
+        suframe.setSize(450,200);
         suframe.setVisible(true);
         suframe.add(supanel);
         suframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

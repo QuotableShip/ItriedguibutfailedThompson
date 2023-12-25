@@ -1,10 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 /**
  * @version (another day, another slay)
  */
@@ -24,14 +20,13 @@ public class Atten extends JFrame {
     private static JButton vaback_button;
 
     private javax.swing.JTable atable;
-
     private static JFrame aframe;
+    private static JComboBox statusbox;
 
-
-    public static void main(String[] args){
+    public Atten() {
         JPanel apanel = new JPanel();
         aframe = new JFrame();
-        aframe.setSize(440, 340);
+        aframe.setSize(500, 340);
         aframe.setVisible(true);
         aframe.add(apanel);
 
@@ -46,7 +41,7 @@ public class Atten extends JFrame {
         apanel.add(date_label);
 
         date_text = new JTextField(10);
-        date_text.setBounds(260, 60, 200, 25);
+        date_text.setBounds(140, 60, 200, 25);
         apanel.add(date_text);
 
         studentname_label = new JLabel("Student name:");
@@ -54,29 +49,33 @@ public class Atten extends JFrame {
         apanel.add(studentname_label);
 
         studentname_text = new JTextField(10);
-        studentname_text.setBounds(260, 90, 200, 25);
+        studentname_text.setBounds(140, 90, 200, 25);
         apanel.add(studentname_text);
 
-        status_label = new JLabel("Status (P = Present, A = Absent, N/A):");
+        status_label = new JLabel("Status:");
         status_label.setBounds(10, 120, 1000, 25);
         apanel.add(status_label);
 
-        status_text = new JTextField(10);
-        status_text.setBounds(260, 120, 200, 25);
-        apanel.add(status_text);
+        statusbox = new JComboBox<>();
+        statusbox.setBounds(140, 120, 200, 25);
+        apanel.add(statusbox);
+        statusbox.addItem("Present");
+        statusbox.addItem("Absent");
+        statusbox.addItem("Late");
+
 
         add_button = new JButton("Add");
-        add_button.setBounds(180, 245, 75, 25);
+        add_button.setBounds(200, 170, 75, 25);
         add_button.setVisible(true);
         apanel.add(add_button);
 
         view_button = new JButton("View Attendance");
-        view_button.setBounds(10, 245, 150, 25);
+        view_button.setBounds(10, 170, 150, 25);
         view_button.setVisible(true);
         apanel.add(view_button);
 
         back_button = new JButton("Back");
-        back_button.setBounds(10, 275, 75, 25);
+        back_button.setBounds(10, 200, 75, 25);
         back_button.setVisible(true);
         apanel.add(back_button);
 
@@ -122,8 +121,6 @@ public class Atten extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String studentName = studentname_text.getText();
                 String date = date_text.getText();
-                String status = status_text.getText();
-
                 // Find the first empty row in the table
                 int emptyRow = -1;
                 for (int row = 0; row < tableData.length; row++) {
@@ -135,7 +132,7 @@ public class Atten extends JFrame {
                 if (emptyRow != -1) {
                     tableData[emptyRow][0] = date;
                     tableData[emptyRow][1] = studentName;
-                    tableData[emptyRow][2] = status;
+                    tableData[emptyRow][2] = (String) statusbox.getSelectedItem();
 
                     table.repaint();
                 } else {
