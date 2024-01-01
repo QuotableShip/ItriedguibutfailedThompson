@@ -12,21 +12,21 @@ import javax.swing.JButton;
 /**
  * @version (I AM AN ACADEMIC SLAY)
  */
-public class Grades extends JFrame {
+public class Student_names extends JFrame {
     private static JLabel studentname_label;
     private static JTextField studentname_text;
     private static JButton add_button; // Renamed from back_button
-    private static JFrame Gframe;
+    private static JFrame SNframe;
 
 
     private static ArrayList<String> nameList; // Changed to ArrayList for storing student names
 
     public static void main(String[] args){
         JPanel Gpanel = new JPanel();
-        Gframe = new JFrame();
-        Gframe.setSize(300, 200);
-        Gframe.setVisible(true);
-        Gframe.add(Gpanel);
+        SNframe = new JFrame();
+        SNframe.setSize(300, 200);
+        SNframe.setVisible(true);
+        SNframe.add(Gpanel);
 
         Gpanel.setLayout(null);
 
@@ -42,12 +42,27 @@ public class Grades extends JFrame {
         add_button.setBounds(155, 140, 70, 25);
         Gpanel.add(add_button);
 
+        nameList = new ArrayList<>();
 
 
         add_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String name = studentname_text.getText();
+                nameList.add(name); // Add the student name to the list
 
+                try {
+                    FileOutputStream fos = new FileOutputStream("Student_names.txt");
+                    OutputStreamWriter outwrite = new OutputStreamWriter(fos);
+                    for (String n : nameList) {
+                        outwrite.write(n + ","); // Write each name to the file
+                    }
+                    outwrite.flush();
+                    outwrite.close();
+                    fos.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }

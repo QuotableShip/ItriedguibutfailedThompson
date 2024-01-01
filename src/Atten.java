@@ -121,6 +121,7 @@ public class Atten extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String studentName = studentname_text.getText();
                 String date = date_text.getText();
+
                 // Find the first empty row in the table
                 int emptyRow = -1;
                 for (int row = 0; row < tableData.length; row++) {

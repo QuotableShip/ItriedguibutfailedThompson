@@ -1,15 +1,25 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Filereading {
     public static void main(String[] args){
 
+        String b =  ("bob");
+
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("Slay.txt"));
-            writer.write("We r academic slays");
-            writer.close();
-        } catch (IOException e) {
+            String name = "";
+            name += b;
+
+
+            FileOutputStream fos = new FileOutputStream("slay.txt");
+            OutputStreamWriter outwrite = new OutputStreamWriter(fos);
+            outwrite.write(name);
+            outwrite.flush();
+            outwrite.close();
+            fos.close();
+
+            System.out.print(name);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
