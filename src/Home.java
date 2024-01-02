@@ -30,7 +30,7 @@ public class Home extends JFrame {
         home_panel.setLayout(null);
 
         Student_names_button = new JButton("Add a Student ");
-        Student_names_button.setBounds(50,30,150,25);
+        Student_names_button.setBounds(30,30,140,25);
         home_panel.add(Student_names_button);
 
         Atten_button = new JButton("Attendance");
@@ -41,7 +41,7 @@ public class Home extends JFrame {
         notes_button.setBounds(50,90,100,25);
         home_panel.add(notes_button);
 
-        grades_button = new JButton("Grade notes");
+        grades_button = new JButton("Grade");
         grades_button.setBounds(50,120,100,25);
         home_panel.add(grades_button);
 

@@ -15,35 +15,41 @@ import javax.swing.JButton;
 public class Student_names extends JFrame {
     private static JLabel studentname_label;
     private static JTextField studentname_text;
-    private static JButton add_button; // Renamed from back_button
+    private static JButton add_button;
+    private static JButton back_button;
+
     private static JFrame SNframe;
 
 
     private static ArrayList<String> nameList; // Changed to ArrayList for storing student names
 
     public Student_names(){
-        JPanel Gpanel = new JPanel();
+        JPanel SNpanel = new JPanel();
         SNframe = new JFrame();
         SNframe.setSize(300, 200);
         SNframe.setVisible(true);
-        SNframe.add(Gpanel);
+        SNframe.add(SNpanel);
 
-        Gpanel.setLayout(null);
+        SNpanel.setLayout(null);
 
         studentname_label = new JLabel("Student name:");
         studentname_label.setBounds(10, 60, 400, 25);
-        Gpanel.add(studentname_label);
+        SNpanel.add(studentname_label);
 
         studentname_text = new JTextField(10);
         studentname_text.setBounds(120, 60, 200, 25);
-        Gpanel.add(studentname_text);
+        SNpanel.add(studentname_text);
 
         add_button = new JButton("Add");
-        add_button.setBounds(155, 140, 70, 25);
-        Gpanel.add(add_button);
+        add_button.setBounds(155, 120, 70, 25);
+        SNpanel.add(add_button);
+
+        back_button = new JButton("Back");
+        back_button.setBounds(10, 120, 75, 25);
+        back_button.setVisible(true);
+        SNpanel.add(back_button);
 
         nameList = new ArrayList<>();
-
 
         add_button.addActionListener(new ActionListener() {
             @Override
@@ -63,6 +69,14 @@ public class Student_names extends JFrame {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+            }
+        });
+        back_button.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home();
+                SNframe.setSize(340, 340);
+                SNframe.dispose();
             }
         });
     }
