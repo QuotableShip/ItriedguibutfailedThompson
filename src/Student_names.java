@@ -21,7 +21,7 @@ public class Student_names extends JFrame {
 
     private static ArrayList<String> nameList; // Changed to ArrayList for storing student names
 
-    public static void main(String[] args){
+    public Student_names(){
         JPanel Gpanel = new JPanel();
         SNframe = new JFrame();
         SNframe.setSize(300, 200);
