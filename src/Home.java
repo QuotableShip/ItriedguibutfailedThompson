@@ -17,11 +17,10 @@ public class Home extends JFrame {
 
     private static JFrame frame;
 
-
     public Home() {
         JPanel home_panel = new JPanel();
         frame = new JFrame();
-        frame.setSize(250,200);
+        frame.setSize(270,250);
         frame.setVisible(true);
         frame.add(home_panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +68,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e)  {
                 new Class_notes();
-                setVisible(false);
                 frame.dispose();
             }
         });
@@ -78,7 +76,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Grades();
-                setVisible(false);
                 frame.dispose();
             }
         });
@@ -87,7 +84,6 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login();
-                setVisible(false);
                 frame.dispose();
             }
         });

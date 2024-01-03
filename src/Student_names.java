@@ -26,7 +26,7 @@ public class Student_names extends JFrame {
     public Student_names(){
         JPanel SNpanel = new JPanel();
         SNframe = new JFrame();
-        SNframe.setSize(300, 200);
+        SNframe.setSize(330, 200);
         SNframe.setVisible(true);
         SNframe.add(SNpanel);
 
@@ -69,6 +69,7 @@ public class Student_names extends JFrame {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+                studentname_text.setText(" ");
             }
         });
         back_button.addActionListener(new ActionListener(){

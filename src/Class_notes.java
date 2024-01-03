@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @version (Why did this take me a whole ass day)
@@ -9,8 +15,9 @@ public class Class_notes extends JFrame {
     private static JLabel nlabel;
 
     private static JLabel label;
-    private static JButton back_button;
     private static JLabel studentname_label;
+    private static JButton back_button;
+
     public static JTextField studentname_text;
     private static JLabel ctittle_label;
     public static JTextField ctittle_text;
@@ -21,8 +28,9 @@ public class Class_notes extends JFrame {
     private static JButton vnback_button;
 
     private javax.swing.JTable table;
-
     private static JFrame nframe;
+    private static ArrayList<String> nameList;
+
 
 
     public Class_notes() {
@@ -42,9 +50,24 @@ public class Class_notes extends JFrame {
         studentname_label.setBounds(10, 60, 400, 25);
         npanel.add(studentname_label);
 
-        studentname_text = new JTextField(10);
-        studentname_text.setBounds(120, 60, 200, 25);
-        npanel.add(studentname_text);
+        JComboBox<String> Studentname = new JComboBox<>();
+        Studentname.setBounds(120, 60, 200, 25);
+        npanel.add(Studentname);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Student_names.txt"))) {
+            String line;
+            nameList = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String[] splitNames = line.split(",");
+                nameList.addAll(Arrays.asList(splitNames));
+            }
+            // Add the student names to the JComboBox
+            for (String name : nameList) {
+                Studentname.addItem(name);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ctittle_label = new JLabel("Tittle:");
         ctittle_label.setBounds(10, 110, 400, 25);
@@ -116,7 +139,6 @@ public class Class_notes extends JFrame {
         add_button.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                String studentName = studentname_text.getText();
                 String commentTitle = ctittle_text.getText();
                 String comment = Comment_text.getText();
 
@@ -129,7 +151,7 @@ public class Class_notes extends JFrame {
                     }
                 }
                 if (emptyRow != -1) {
-                    tableData[emptyRow][0] = studentName;
+                    tableData[emptyRow][0] = (String) Studentname.getSelectedItem();;
                     tableData[emptyRow][1] = commentTitle;
                     tableData[emptyRow][2] = comment;
 
@@ -138,7 +160,15 @@ public class Class_notes extends JFrame {
                     System.out.println("Table is full!");
                 }
 
-                studentname_text.setText(" ");
+                try (FileWriter writer = new FileWriter("Classnotes.txt")) {
+                    for (int row = 0; row < table.getRowCount(); row++) {
+                        for (int column = 0; column < table.getColumnCount(); column++) {
+                            writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 ctittle_text.setText(" ");
                 Comment_text.setText(" ");
             }

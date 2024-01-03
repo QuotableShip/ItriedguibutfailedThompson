@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @version (another day, another slay)
  */
@@ -22,6 +26,7 @@ public class Atten extends JFrame {
     private javax.swing.JTable atable;
     private static JFrame aframe;
     private static JComboBox statusbox;
+    private static ArrayList<String> nameList;
 
     public Atten() {
         JPanel apanel = new JPanel();
@@ -48,9 +53,24 @@ public class Atten extends JFrame {
         studentname_label.setBounds(10, 90, 400, 25);
         apanel.add(studentname_label);
 
-        studentname_text = new JTextField(10);
-        studentname_text.setBounds(140, 90, 200, 25);
-        apanel.add(studentname_text);
+        JComboBox<String> Studentname = new JComboBox<>();
+        Studentname.setBounds(140, 90, 200, 25);
+        apanel.add(Studentname);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Student_names.txt"))) {
+            String line;
+            nameList = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String[] splitNames = line.split(",");
+                nameList.addAll(Arrays.asList(splitNames));
+            }
+            // Add the student names to the JComboBox
+            for (String name : nameList) {
+                Studentname.addItem(name);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         status_label = new JLabel("Status:");
         status_label.setBounds(10, 120, 1000, 25);
@@ -60,7 +80,7 @@ public class Atten extends JFrame {
         statusbox.setBounds(140, 120, 200, 25);
         apanel.add(statusbox);
         statusbox.addItem("Present");
-        statusbox.addItem("Absent");
+        statusbox.addItem("N/A");
         statusbox.addItem("Late");
 
 
@@ -119,7 +139,6 @@ public class Atten extends JFrame {
         add_button.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                String studentName = studentname_text.getText();
                 String date = date_text.getText();
 
                 // Find the first empty row in the table
@@ -132,17 +151,24 @@ public class Atten extends JFrame {
                 }
                 if (emptyRow != -1) {
                     tableData[emptyRow][0] = date;
-                    tableData[emptyRow][1] = studentName;
+                    tableData[emptyRow][1] = (String) Studentname.getSelectedItem();;
                     tableData[emptyRow][2] = (String) statusbox.getSelectedItem();
 
                     table.repaint();
                 } else {
                     System.out.println("Table is full!");
                 }
-
-                studentname_text.setText(" ");
                 date_text.setText(" ");
-                status_text.setText(" ");
+
+                try (FileWriter writer = new FileWriter("Atten.txt")) {
+                    for (int row = 0; row < table.getRowCount(); row++) {
+                        for (int column = 0; column < table.getColumnCount(); column++) {
+                            writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
+                        }
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
