@@ -111,6 +111,27 @@ public class Atten extends JFrame {
 
         String[] columnNames = {"Date", "Student name", "Status"};
         String[][] tableData = new String[10][3]; // Example: 10 rows initially
+
+        /*
+        try(BufferedReader reader = new BufferedReader(new FileReader("Atten.txt")))
+        {
+            String line;
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; i < 3; j++)
+                {
+                    if ((line = reader.readLine()) != null)
+                    {
+                        tableData[j][i] = line.split(": ")[1];
+                    }
+                }
+            }
+        } catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+         */
+
         JTable table = new JTable(tableData, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -165,6 +186,7 @@ public class Atten extends JFrame {
                         for (int column = 0; column < table.getColumnCount(); column++) {
                             writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
                         }
+                        writer.write("\n");
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();

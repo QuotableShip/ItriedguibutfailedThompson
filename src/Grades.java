@@ -161,6 +161,7 @@ public class Grades extends JFrame {
                             writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
                             writer.write("");
                         }
+                        writer.write("\n");
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();

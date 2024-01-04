@@ -166,6 +166,7 @@ public class Class_notes extends JFrame {
                             writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
                         }
                     }
+                    writer.write("\n");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
