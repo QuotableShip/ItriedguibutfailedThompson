@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,11 +31,13 @@ public  class Login extends JFrame  {
 
 
         panel.setLayout(null);
-        Color green = new Color(119,141,34);
+        Color green = new Color(123, 171, 29);
         panel.setBackground(green);
 
         title_label = new JLabel("Login Page: ");
         title_label.setBounds(10,20,350,25);
+        title_label.setFont(new Font("Serif", Font.BOLD, 13));
+
         panel.add(title_label);
 
         username_label = new JLabel("Username:");

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -8,7 +9,7 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * @version (I AM AN ACADEMIC SLAY)
+ * @version (WHY! WHY! WHY!)
  */
 public class Grades extends JFrame {
     private static JLabel studentname_label;
@@ -36,9 +37,12 @@ public class Grades extends JFrame {
         Gframe.add(Gpanel);
 
         Gpanel.setLayout(null);
+        Color green = new Color(123, 171, 29);
+        Gpanel.setBackground(green);
 
-        Glabel = new JLabel("Attendance Page: ");
+        Glabel = new JLabel("Grade Page: ");
         Glabel.setBounds(10, 20, 350, 25);
+        Glabel.setFont(new Font("Serif", Font.BOLD, 13));
         Gpanel.add(Glabel);
 
         studentname_label = new JLabel("Student name:");
@@ -119,12 +123,17 @@ public class Grades extends JFrame {
         vgpanel.add(vgback_button);
 
         String[] columnNames = {"Student name", "Title", "Grade","Comment"};
-        String[][] tableData = new String[10][4]; // Example: 10 rows initially
-        JTable table = new JTable(tableData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
+        String[][] tableData = new String[10][3]; // Example: 10 rows initially
+
+        final JTable[] table = {new JTable(tableData, columnNames)};
+        JScrollPane scrollPane = new JScrollPane(table[0]);
 
         vgpanel.add(scrollPane);
         scrollPane.setBounds(50,30,700,200);
+
+        String filePath = "Grades.txt";
+        ArrayList<String>[] tabledata = (ArrayList<String>[])new ArrayList[1];
+        tabledata[0] = new ArrayList<>();
 
         add_button.addActionListener(new ActionListener() {
             @Override
@@ -132,8 +141,6 @@ public class Grades extends JFrame {
                 String tittle = Gtittle_text.getText();
                 String comment = Comment_text.getText();
 
-
-                // Find the first empty row in the table
                 int emptyRow = -1;
                 for (int row = 0; row < tableData.length; row++) {
                     if (tableData[row][0] == null) {
@@ -142,31 +149,23 @@ public class Grades extends JFrame {
                     }
                 }
                 if (emptyRow != -1) {
-                    tableData[emptyRow][0] = (String) Studentname.getSelectedItem();;
+                    tableData[emptyRow][0] = (String) Studentname.getSelectedItem();
                     tableData[emptyRow][1] = tittle;
                     tableData[emptyRow][2] = String.valueOf((int) grade.getSelectedItem());
                     tableData[emptyRow][3] = comment;
-
-                    table.repaint();
-
+                    table[0].repaint();
                 } else {
                     System.out.println("Table is full!");
                 }
                 Gtittle_text.setText(" ");
                 Comment_text.setText(" ");
 
-                try (FileWriter writer = new FileWriter("Grades.txt")) {
-                    for (int row = 0; row < table.getRowCount(); row++) {
-                        for (int column = 0; column < table.getColumnCount(); column++) {
-                            writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
-                            writer.write("");
-                        }
-                        writer.write("\n");
-                    }
+                try (FileWriter writer = new FileWriter("Grades.txt", true)) {
+                    writer.write((String) Studentname.getSelectedItem() + "," + tittle + "," + grade.getSelectedItem() + "," + comment + "\n");
+                    System.out.println("Data has been appended to the file successfully.");
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    System.out.println("An error occurred while appending the data to the file: " + ex.getMessage());
                 }
-
             }
         });
 
@@ -185,6 +184,22 @@ public class Grades extends JFrame {
                 Gframe.setSize(880, 380);
                 vgpanel.setVisible(true);
                 Gpanel.setVisible(false);
+
+                try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                    String line;
+                    int row = 0;
+                    while ((line = br.readLine()) != null && row < tableData.length) {
+                        String[] values = line.split(",");
+                        tableData[row][0] = values[0];
+                        tableData[row][1] = values[1];
+                        tableData[row][2] = values[2];
+                        tableData[row][3] = values[3];
+                        row++;
+                    }
+                    table[0].repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         vgback_button.addActionListener(new ActionListener(){

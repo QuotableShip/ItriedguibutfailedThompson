@@ -14,13 +14,14 @@ public class Home extends JFrame {
     private static JButton grades_button;
     private static JButton notes_button;
     private static JButton signout_button;
+    private static JButton vi_button;
 
     private static JFrame frame;
 
-    public Home() {
+    public Home(){
         JPanel home_panel = new JPanel();
         frame = new JFrame();
-        frame.setSize(270,250);
+        frame.setSize(270,290);
         frame.setVisible(true);
         frame.add(home_panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,8 +46,12 @@ public class Home extends JFrame {
         home_panel.add(grades_button);
 
         signout_button = new JButton("Signout");
-        signout_button.setBounds(145,170,100,25);
+        signout_button.setBounds(170,170,100,25);
         home_panel.add(signout_button);
+
+        vi_button = new JButton("View student information");
+        vi_button.setBounds(50,150,100,25);
+        home_panel.add(vi_button);
 
         Student_names_button.addActionListener(new ActionListener(){
             @Override
@@ -76,6 +81,13 @@ public class Home extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Grades();
+                frame.dispose();
+            }
+        });
+        vi_button.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Viewinfo();
                 frame.dispose();
             }
         });

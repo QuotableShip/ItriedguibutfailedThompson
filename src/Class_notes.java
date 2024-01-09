@@ -1,15 +1,13 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * @version (Why did this take me a whole ass day)
+ * @version (This is going to be the death of moi)
  */
 public class Class_notes extends JFrame {
     private static JLabel nlabel;
@@ -41,9 +39,12 @@ public class Class_notes extends JFrame {
         nframe.add(npanel);
 
         npanel.setLayout(null);
+        Color green = new Color(123, 171, 29);
+        npanel.setBackground(green);
 
         nlabel = new JLabel("Notes Page: ");
         nlabel.setBounds(10, 20, 350, 25);
+        nlabel.setFont(new Font("Serif", Font.BOLD, 13));
         npanel.add(nlabel);
 
         studentname_label = new JLabel("Student name:");
@@ -61,7 +62,6 @@ public class Class_notes extends JFrame {
                 String[] splitNames = line.split(",");
                 nameList.addAll(Arrays.asList(splitNames));
             }
-            // Add the student names to the JComboBox
             for (String name : nameList) {
                 Studentname.addItem(name);
             }
@@ -111,11 +111,16 @@ public class Class_notes extends JFrame {
 
         String[] columnNames = {"Student name", "Comment Title", "Comment"};
         String[][] tableData = new String[10][3]; // Example: 10 rows initially
-        JTable table = new JTable(tableData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
+
+        final JTable[] table = {new JTable(tableData, columnNames)};
+        JScrollPane scrollPane = new JScrollPane(table[0]);
 
         vnpanel.add(scrollPane);
         scrollPane.setBounds(50,30,700,200);
+
+        String filePath = "cn.txt";
+        ArrayList<String>[] tabledata = (ArrayList<String>[])new ArrayList[1];
+        tabledata[0] = new ArrayList<>();
 
         back_button.addActionListener(new ActionListener(){
             @Override
@@ -133,6 +138,21 @@ public class Class_notes extends JFrame {
                 nframe.setSize(880, 380);
                 vnpanel.setVisible(true);
                 npanel.setVisible(false);
+
+                try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                    String line;
+                    int row = 0;
+                    while ((line = br.readLine()) != null && row < tableData.length) {
+                        String[] values = line.split(",");
+                        tableData[row][0] = values[0];
+                        tableData[row][1] = values[1];
+                        tableData[row][2] = values[2];
+                        row++;
+                    }
+                    table[0].repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -151,24 +171,20 @@ public class Class_notes extends JFrame {
                     }
                 }
                 if (emptyRow != -1) {
-                    tableData[emptyRow][0] = (String) Studentname.getSelectedItem();;
+                    tableData[emptyRow][0] = (String) Studentname.getSelectedItem();
                     tableData[emptyRow][1] = commentTitle;
                     tableData[emptyRow][2] = comment;
 
-                    table.repaint();
+                    table[0].repaint();
+
                 } else {
                     System.out.println("Table is full!");
                 }
-
-                try (FileWriter writer = new FileWriter("Classnotes.txt")) {
-                    for (int row = 0; row < table.getRowCount(); row++) {
-                        for (int column = 0; column < table.getColumnCount(); column++) {
-                            writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
-                        }
-                    }
-                    writer.write("\n");
+                try (FileWriter writer = new FileWriter("cn.txt", true)) {
+                    writer.write((String) Studentname.getSelectedItem() + "," + commentTitle + "," + comment + "\n");
+                    System.out.println("Data has been appended to the file successfully.");
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    System.out.println("An error occurred while appending the data to the file: " + ex.getMessage());
                 }
                 ctittle_text.setText(" ");
                 Comment_text.setText(" ");
@@ -180,6 +196,7 @@ public class Class_notes extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 npanel.setVisible(true);
                 vnpanel.setVisible(false);
+
             }
         });
     }

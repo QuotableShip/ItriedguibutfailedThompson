@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -36,9 +37,12 @@ public class Atten extends JFrame {
         aframe.add(apanel);
 
         apanel.setLayout(null);
+        Color green = new Color(123, 171, 29);
+        apanel.setBackground(green);
 
         alabel = new JLabel("Attendance Page: ");
         alabel.setBounds(10, 20, 350, 25);
+        alabel.setFont(new Font("Serif", Font.BOLD, 13));
         apanel.add(alabel);
 
         date_label = new JLabel("Date:");
@@ -112,31 +116,16 @@ public class Atten extends JFrame {
         String[] columnNames = {"Date", "Student name", "Status"};
         String[][] tableData = new String[10][3]; // Example: 10 rows initially
 
-        /*
-        try(BufferedReader reader = new BufferedReader(new FileReader("Atten.txt")))
-        {
-            String line;
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; i < 3; j++)
-                {
-                    if ((line = reader.readLine()) != null)
-                    {
-                        tableData[j][i] = line.split(": ")[1];
-                    }
-                }
-            }
-        } catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-         */
-
-        JTable table = new JTable(tableData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
+        final JTable[] table = {new JTable(tableData, columnNames)};
+        JScrollPane scrollPane = new JScrollPane(table[0]);
 
         vapanel.add(scrollPane);
         scrollPane.setBounds(50,30,700,200);
+
+        String filePath = "Atten.txt";
+        ArrayList<String>[] tabledata = (ArrayList<String>[])new ArrayList[1];
+        tabledata[0] = new ArrayList<>();
+
 
         back_button.addActionListener(new ActionListener(){
             @Override
@@ -154,6 +143,21 @@ public class Atten extends JFrame {
                 aframe.setSize(880, 380);
                 vapanel.setVisible(true);
                 apanel.setVisible(false);
+
+                try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                    String line;
+                    int row = 0;
+                    while ((line = br.readLine()) != null && row < tableData.length) {
+                        String[] values = line.split(",");
+                        tableData[row][0] = values[0];
+                        tableData[row][1] = values[1];
+                        tableData[row][2] = values[2];
+                        row++;
+                    }
+                    table[0].repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -161,8 +165,9 @@ public class Atten extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String date = date_text.getText();
+                String studentName = (String) Studentname.getSelectedItem();
+                String status = (String) statusbox.getSelectedItem();
 
-                // Find the first empty row in the table
                 int emptyRow = -1;
                 for (int row = 0; row < tableData.length; row++) {
                     if (tableData[row][0] == null) {
@@ -172,24 +177,19 @@ public class Atten extends JFrame {
                 }
                 if (emptyRow != -1) {
                     tableData[emptyRow][0] = date;
-                    tableData[emptyRow][1] = (String) Studentname.getSelectedItem();;
-                    tableData[emptyRow][2] = (String) statusbox.getSelectedItem();
-
-                    table.repaint();
+                    tableData[emptyRow][1] = studentName;
+                    tableData[emptyRow][2] = status;
+                    table[0].repaint();
                 } else {
                     System.out.println("Table is full!");
                 }
                 date_text.setText(" ");
 
-                try (FileWriter writer = new FileWriter("Atten.txt")) {
-                    for (int row = 0; row < table.getRowCount(); row++) {
-                        for (int column = 0; column < table.getColumnCount(); column++) {
-                            writer.write(table.getColumnName(column) + ": " + table.getValueAt(row, column) + "\n");
-                        }
-                        writer.write("\n");
-                    }
+                try (FileWriter writer = new FileWriter("Atten.txt", true)) {
+                    writer.write(studentName + "," + status + "," + date + "\n");
+                    System.out.println("Data has been appended to the file successfully.");
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    System.out.println("An error occurred while appending the data to the file: " + ex.getMessage());
                 }
             }
         });

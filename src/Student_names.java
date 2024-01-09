@@ -1,6 +1,9 @@
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
@@ -31,6 +34,8 @@ public class Student_names extends JFrame {
         SNframe.add(SNpanel);
 
         SNpanel.setLayout(null);
+        Color green = new Color(123, 171, 29);
+        SNpanel.setBackground(green);
 
         studentname_label = new JLabel("Student name:");
         studentname_label.setBounds(10, 60, 400, 25);
@@ -56,17 +61,13 @@ public class Student_names extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String name = studentname_text.getText();
                 nameList.add(name); // Add the student name to the list
-
                 try {
-                    FileOutputStream fos = new FileOutputStream("Student_names.txt");
-                    OutputStreamWriter outwrite = new OutputStreamWriter(fos);
+                    FileWriter fw = new FileWriter("Student_names.txt", true); // true for append mode
                     for (String n : nameList) {
-                        outwrite.write(n + ","); // Write each name to the file
+                        fw.write(n + ","); // Write each name to the file
                     }
-                    outwrite.flush();
-                    outwrite.close();
-                    fos.close();
-                } catch (Exception ex) {
+                    fw.close();
+                } catch (IOException ex) {
                     ex.printStackTrace();
                 }
                 studentname_text.setText(" ");
