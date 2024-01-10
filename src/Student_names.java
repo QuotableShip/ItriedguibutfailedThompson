@@ -39,6 +39,7 @@ public class Student_names extends JFrame {
 
         studentname_label = new JLabel("Student name:");
         studentname_label.setBounds(10, 60, 400, 25);
+        studentname_label.setFont(new Font("Serif", Font.BOLD, 14));
         SNpanel.add(studentname_label);
 
         studentname_text = new JTextField(10);

@@ -1,1 +1,1 @@
-bob, mary, joe, Gamble,bob,bob, mary,bob, mary, jane,
+bob, mary, joe, Gamble

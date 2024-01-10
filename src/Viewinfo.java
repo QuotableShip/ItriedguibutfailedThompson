@@ -20,9 +20,12 @@ public class Viewinfo extends JFrame {
     private static JButton viback_button;
     private static JLabel sn_label;
     private static JLabel Name;
+    private static JLabel oa_label;
+    private static JLabel oatten;
+    private static JLabel og_label;
+    private static JLabel ogra;
 
-
-    public static void main(String[] args){
+    public Viewinfo() {
         JPanel Vpanel = new JPanel();
         Vframe = new JFrame();
         Vframe.setSize(330, 200);
@@ -60,7 +63,7 @@ public class Viewinfo extends JFrame {
             e.printStackTrace();
         }
         vis_button = new JButton("View student info");
-        vis_button.setBounds(135, 120, 180, 25);
+        vis_button.setBounds(120, 120, 180, 25);
         Vpanel.add(vis_button);
 
         back_button = new JButton("Back");
@@ -104,16 +107,17 @@ public class Viewinfo extends JFrame {
                 Vpanel.setVisible(false);
 
                 sn_label = new JLabel("Student name:");
-                sn_label.setBounds(10, 60, 400, 25);
+                sn_label.setBounds(10, 20, 400, 25);
                 vipanel.add(sn_label);
 
                 String name = (String) Studentname.getSelectedItem();
                 Name = new JLabel(name);
-                Name.setBounds(120, 60, 400, 25);
+                Name.setBounds(150, 20, 400, 25);
                 vipanel.add(Name);
 
                 ArrayList<String> attendance = new ArrayList<>();
                 String filePath = "Atten.txt";
+                int alength = 0;
                 try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -124,6 +128,7 @@ public class Viewinfo extends JFrame {
                             if (firstPart.equals(name)) {
                                 System.out.println(line);
                                 attendance.add(line);
+                                alength++;
                             }
                         }
                     }
@@ -137,8 +142,67 @@ public class Viewinfo extends JFrame {
                         counter++;
                     }
                 }
+                int OA = (int) ((double)counter/alength * 100);
+
+                System.out.println(alength);
                 System.out.println(counter);
+                System.out.println("Overall Attendance: " + OA + "%");
+
+                oa_label = new JLabel("Overall attendance:");
+                oa_label.setBounds(10, 50, 400, 25);
+                vipanel.add(oa_label);
+
+                oatten = new JLabel(String.valueOf(OA)+ "%");
+                oatten.setBounds(150, 50, 400, 25);
+                vipanel.add(oatten);
+
+                ArrayList<String> grade = new ArrayList<>();
+                String fp = "Grades.txt";
+                int glength = 0;
+                try (BufferedReader reader = new BufferedReader(new FileReader(fp))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        String firstPart;
+                        if (line.contains(",")) {
+                            int commaIndex = line.indexOf(',');
+                            firstPart = line.substring(0, commaIndex);
+                            if (firstPart.equals(name)) {
+                                System.out.println(line);
+                                grade.add(line);
+                                glength++;
+                            }
+                        }
+                    }
+                } catch (IOException m) {
+                    m.printStackTrace();
                 }
+                int gcounter = 0;
+                for (String line : grade) {
+                    String x = line.substring(4, 5);
+                    double d = Double.parseDouble(x);
+                    gcounter += d;
+                }
+
+                double OG = gcounter / glength;  // Calculate the average
+
+                int overallGrade = (int) (OG);  // Calculate the percent
+
+                System.out.println(glength);
+                System.out.println(gcounter);
+                System.out.println(OG);
+                System.out.println(overallGrade);
+                System.out.println("Overall Grade: " + overallGrade );
+
+
+                og_label = new JLabel("Overall grade:");
+                og_label.setBounds(10, 80, 400, 25);
+                vipanel.add(og_label);
+
+                ogra = new JLabel(String.valueOf(overallGrade));
+                ogra.setBounds(150, 80, 400, 25);
+                vipanel.add(ogra);
+
+            }
         });
     }
 }

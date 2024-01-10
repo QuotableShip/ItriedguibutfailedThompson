@@ -21,7 +21,7 @@ public class Home extends JFrame {
     public Home(){
         JPanel home_panel = new JPanel();
         frame = new JFrame();
-        frame.setSize(270,290);
+        frame.setSize(250,290);
         frame.setVisible(true);
         frame.add(home_panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,23 +34,23 @@ public class Home extends JFrame {
         home_panel.add(Student_names_button);
 
         Atten_button = new JButton("Attendance");
-        Atten_button.setBounds(50,60,100,25);
+        Atten_button.setBounds(50,70,100,25);
         home_panel.add(Atten_button);
 
         notes_button = new JButton("Notes");
-        notes_button.setBounds(50,90,100,25);
+        notes_button.setBounds(50,100,100,25);
         home_panel.add(notes_button);
 
         grades_button = new JButton("Grade");
-        grades_button.setBounds(50,120,100,25);
+        grades_button.setBounds(50,130,100,25);
         home_panel.add(grades_button);
 
         signout_button = new JButton("Signout");
-        signout_button.setBounds(170,170,100,25);
+        signout_button.setBounds(50,210,100,25);
         home_panel.add(signout_button);
 
         vi_button = new JButton("View student information");
-        vi_button.setBounds(50,150,100,25);
+        vi_button.setBounds(10,160,200,25);
         home_panel.add(vi_button);
 
         Student_names_button.addActionListener(new ActionListener(){
