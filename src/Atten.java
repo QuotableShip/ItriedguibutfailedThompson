@@ -113,8 +113,8 @@ public class Atten extends JFrame {
         vaback_button.setVisible(true);
         vapanel.add(vaback_button);
 
-        String[] columnNames = {"Date", "Student name", "Status"};
-        String[][] tableData = new String[10][3]; // Example: 10 rows initially
+        String[] columnNames = {"Date", "Status ", "Student Name"};
+        String[][] tableData = new String[10][3];
 
         final JTable[] table = {new JTable(tableData, columnNames)};
         JScrollPane scrollPane = new JScrollPane(table[0]);
@@ -177,8 +177,8 @@ public class Atten extends JFrame {
                 }
                 if (emptyRow != -1) {
                     tableData[emptyRow][0] = date;
-                    tableData[emptyRow][1] = studentName;
-                    tableData[emptyRow][2] = status;
+                    tableData[emptyRow][1] = status;
+                    tableData[emptyRow][2] = studentName;
                     table[0].repaint();
                 } else {
                     System.out.println("Table is full!");

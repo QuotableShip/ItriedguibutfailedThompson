@@ -49,8 +49,8 @@ public class Home extends JFrame {
         signout_button.setBounds(50,210,100,25);
         home_panel.add(signout_button);
 
-        vi_button = new JButton("View student information");
-        vi_button.setBounds(10,160,200,25);
+        vi_button = new JButton("Student information");
+        vi_button.setBounds(30,160,150,25);
         home_panel.add(vi_button);
 
         Student_names_button.addActionListener(new ActionListener(){

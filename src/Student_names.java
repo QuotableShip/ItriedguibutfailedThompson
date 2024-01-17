@@ -1,10 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -61,11 +59,11 @@ public class Student_names extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = studentname_text.getText();
-                nameList.add(name); // Add the student name to the list
+                nameList.add(name);
                 try {
                     FileWriter fw = new FileWriter("Student_names.txt", true); // true for append mode
                     for (String n : nameList) {
-                        fw.write(n + ","); // Write each name to the file
+                        fw.write(n + ",");
                     }
                     fw.close();
                 } catch (IOException ex) {

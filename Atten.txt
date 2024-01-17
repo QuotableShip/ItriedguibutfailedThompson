@@ -1,5 +1,2 @@
-bob, 1,Present
-mary, 2,Present
-bob, 1,Present
-bob, 1,Present
-bob, 5,Late
+
+bob,Present,12/13

@@ -169,7 +169,7 @@ public class Class_notes extends JFrame {
                         emptyRow = row;
                         break;
                     }
-                }
+                 }
                 if (emptyRow != -1) {
                     tableData[emptyRow][0] = (String) Studentname.getSelectedItem();
                     tableData[emptyRow][1] = commentTitle;
